@@ -6,43 +6,43 @@
   <title>LD Carousel</title>
 
   <style>
-    :root{--bg1:#0b1020;--bg2:#140b2a;--glass:rgba(255,255,255,.08);--stroke:rgba(255,255,255,.14);--shadow:0 18px 55px rgba(0,0,0,.45);--text:rgba(255,255,255,.92);--muted:rgba(255,255,255,.65);--accent:#8b5cf6;--accent2:#22d3ee;--radius:18px}
+    :root{--bg1:#FFE3EF;--bg2:#FFD6E8;--glass:rgba(233,30,99,.06);--stroke:rgba(233,30,99,.18);--shadow:0 18px 55px rgba(233,30,99,.15);--text:#4A2040;--muted:rgba(74,32,64,.6);--accent:#E91E63;--accent2:#F06292;--radius:18px}
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR",sans-serif;color:var(--text);background:radial-gradient(1200px 800px at 15% 10%,rgba(139,92,246,.35),transparent 55%),radial-gradient(900px 650px at 85% 15%,rgba(34,211,238,.28),transparent 55%),radial-gradient(1000px 800px at 50% 110%,rgba(255,255,255,.1),transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));display:flex;align-items:center;justify-content:center;padding:18px}
-    .wrap{width:min(920px,100%);border:1px solid var(--stroke);background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.05));backdrop-filter:blur(12px);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;position:relative}
-    .head{padding:14px 16px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR",sans-serif;color:var(--text);background:#FFE3EF;display:flex;align-items:center;justify-content:center;padding:18px}
+    .wrap{width:min(920px,100%);border:1px solid var(--stroke);background:rgba(255,255,255,.7);backdrop-filter:blur(12px);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;position:relative}
+    .head{padding:14px 16px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(233,30,99,.12)}
     .title{display:flex;flex-direction:column;gap:4px;min-width:0}
     .title strong{font-size:14px;letter-spacing:.2px}
     .title span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
-    .chip{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.2);border-radius:999px;font-size:12px;color:var(--muted);user-select:none}
+    .chip{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(233,30,99,.15);background:rgba(255,255,255,.5);border-radius:999px;font-size:12px;color:var(--muted);user-select:none}
     .chip input{accent-color:var(--accent)}
     .carousel{position:relative;padding:14px}
-    .viewport{overflow:hidden;border-radius:calc(var(--radius) - 4px);border:1px solid rgba(255,255,255,.1);background:rgba(0,0,0,.25);box-shadow:0 10px 25px rgba(0,0,0,.25)}
+    .viewport{overflow:hidden;border-radius:calc(var(--radius) - 4px);border:1px solid rgba(233,30,99,.15);background:rgba(255,255,255,.4);box-shadow:0 10px 25px rgba(233,30,99,.12)}
     .track{display:flex;will-change:transform;transition:transform 360ms cubic-bezier(.2,.9,.2,1)}
     .item{flex:0 0 100%;padding:10px;display:flex;justify-content:center;align-items:center}
-    .frame{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;position:relative;background:#000;box-shadow:0 12px 30px rgba(0,0,0,.35)}
-    .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(139,92,246,.16),transparent 55%),linear-gradient(315deg,rgba(34,211,238,.12),transparent 55%);mix-blend-mode:screen;opacity:.7}
+    .frame{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;position:relative;background:#1a1a1a;box-shadow:0 12px 30px rgba(233,30,99,.18)}
+    .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(233,30,99,.12),transparent 55%),linear-gradient(315deg,rgba(240,98,146,.1),transparent 55%);mix-blend-mode:screen;opacity:.7}
     iframe{width:100%;height:100%;border:0;display:block}
-    .nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:999px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.38);color:rgba(255,255,255,.92);cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 25px rgba(0,0,0,.35);transition:transform .15s ease,background .15s ease;user-select:none}
-    .nav:hover{background:rgba(0,0,0,.52);transform:translateY(-50%) scale(1.04)}
+    .nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:999px;border:1px solid rgba(233,30,99,.2);background:rgba(255,255,255,.85);color:#E91E63;cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 25px rgba(233,30,99,.15);transition:transform .15s ease,background .15s ease;user-select:none}
+    .nav:hover{background:rgba(255,255,255,.95);transform:translateY(-50%) scale(1.04)}
     .nav:active{transform:translateY(-50%) scale(.98)}
     .prev{left:16px}
     .next{right:16px}
     .nav svg{width:18px;height:18px}
     .dots{display:flex;justify-content:center;gap:9px;padding:12px 0 4px}
-    .dot{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.18);cursor:pointer;transition:transform .15s ease,background .15s ease,width .15s ease}
-    .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent2));border-color:rgba(255,255,255,.24);width:18px}
+    .dot{width:8px;height:8px;border-radius:999px;background:rgba(233,30,99,.2);border:1px solid rgba(233,30,99,.15);cursor:pointer;transition:transform .15s ease,background .15s ease,width .15s ease}
+    .dot.active{background:linear-gradient(90deg,var(--accent),var(--accent2));border-color:rgba(233,30,99,.3);width:18px}
     .thumbs{display:flex;gap:10px;padding:10px 6px 2px;overflow-x:auto;justify-content:center;scrollbar-width:none}
     .thumbs::-webkit-scrollbar{display:none}
-    .thumb{width:120px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.28);cursor:pointer;position:relative;transition:transform .15s ease,border-color .15s ease,opacity .15s ease;opacity:.72;flex:0 0 auto;box-shadow:0 10px 22px rgba(0,0,0,.25);padding:0}
+    .thumb{width:120px;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid rgba(233,30,99,.15);background:rgba(255,255,255,.3);cursor:pointer;position:relative;transition:transform .15s ease,border-color .15s ease,opacity .15s ease;opacity:.72;flex:0 0 auto;box-shadow:0 10px 22px rgba(233,30,99,.12);padding:0}
     .thumb:hover{transform:translateY(-2px);opacity:.92}
-    .thumb.active{opacity:1;border-color:rgba(34,211,238,.55);box-shadow:0 14px 28px rgba(0,0,0,.35)}
+    .thumb.active{opacity:1;border-color:rgba(233,30,99,.5);box-shadow:0 14px 28px rgba(233,30,99,.18)}
     .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .thumb.active::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(139,92,246,.35);border-radius:12px}
+    .thumb.active::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(233,30,99,.35);border-radius:12px}
     .foot{padding:0 16px 14px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);padding:2px 6px;border-radius:6px;color:rgba(255,255,255,.75)}
+    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;background:rgba(255,255,255,.5);border:1px solid rgba(233,30,99,.15);padding:2px 6px;border-radius:6px;color:var(--text)}
     @media (max-width:520px){.nav{width:40px;height:40px}.prev{left:10px}.next{right:10px}.carousel{padding:12px}.item{padding:8px}.thumb{width:96px;border-radius:10px}}
   </style>
 </head>
@@ -52,22 +52,9 @@
     <div class="head">
       <div class="title">
         <strong>LD 작업 영상</strong>
-        <span>드래그/버튼으로 한 장씩 넘기기 · 반응형</span>
       </div>
 
       <div class="controls">
-        <label class="chip" title="자동으로 넘김">
-          <input type="checkbox" id="autoPlay" />
-          자동 재생
-        </label>
-        <label class="chip" title="이동 간격">
-          속도
-          <select id="interval" style="background:transparent;color:var(--text);border:0;outline:none;">
-            <option value="2500">2.5s</option>
-            <option value="3500" selected>3.5s</option>
-            <option value="5000">5s</option>
-          </select>
-        </label>
       </div>
     </div>
 
@@ -87,11 +74,6 @@
       <div class="dots" aria-label="페이지 표시"></div>
       <div class="thumbs" aria-label="썸네일 목록"></div>
     </div>
-
-    <div class="foot">
-      <div>Tip: <span class="kbd">←</span> <span class="kbd">→</span> 키로도 이동 가능</div>
-      <div>모바일은 스와이프로 넘김</div>
-    </div>
   </div>
 
   <script>
@@ -99,9 +81,9 @@
       // ✅ 여기만 수정하면 전부 자동 적용됩니다 (URL 또는 ID 가능)
       const VIDEOS = [
         "https://www.youtube.com/watch?v=unRpvJET3I0",
-        "https://youtu.be/ZKl2kqy1938",
-        "I5IT5vOsoEs",
-        "e5i0cTVEHIs"
+        "https://www.youtube.com/watch?v=ZKl2kqy1938",
+        "https://www.youtube.com/watch?v=I5IT5vOsoEs",
+        "https://www.youtube.com/watch?v=e5i0cTVEHIs"
       ];
 
       const app = document.getElementById("app");
@@ -132,7 +114,7 @@
       const N = ids.length;
 
       if (N === 0) {
-        track.innerHTML = '<div style="padding:24px;color:rgba(255,255,255,.75);">영상 주소/ID를 확인해주세요.</div>';
+        track.innerHTML = '<div style="padding:24px;color:#4A2040;">영상 주소/ID를 확인해주세요.</div>';
         return;
       }
 
