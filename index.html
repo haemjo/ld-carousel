@@ -4,12 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>LD Carousel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
   <style>
     :root{--bg1:#FFE3EF;--bg2:#FFD6E8;--glass:rgba(233,30,99,.06);--stroke:rgba(233,30,99,.18);--shadow:0 18px 55px rgba(233,30,99,.15);--text:#4A2040;--muted:rgba(74,32,64,.6);--accent:#E91E63;--accent2:#F06292;--radius:18px}
     *{box-sizing:border-box}
     html,body{height:100%;background:transparent !important}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR",sans-serif;color:var(--text);background:transparent;display:flex;align-items:center;justify-content:center;padding:0px}
+    body{margin:0;font-family:'Gowun Dodum',ui-sans-serif,system-ui,sans-serif;color:var(--text);background:transparent;display:flex;align-items:center;justify-content:center;padding:0px}
     .wrap{width:min(920px,100%);border:1px solid var(--stroke);background:#FFF4F8;border-radius:var(--radius);box-shadow:none;overflow:hidden;position:relative}
     .head{padding:14px 16px 10px;display:flex;gap:12px;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(233,30,99,.12)}
     .title{display:flex;flex-direction:column;gap:4px;min-width:0}
@@ -21,10 +23,11 @@
     .carousel{position:relative;padding:14px}
     .viewport{overflow:hidden;border-radius:calc(var(--radius) - 4px);border:1px solid rgba(233,30,99,.15);background:rgba(255,255,255,.4);box-shadow:0 10px 25px rgba(233,30,99,.12)}
     .track{display:flex;will-change:transform;transition:transform 360ms cubic-bezier(.2,.9,.2,1)}
-    .item{flex:0 0 100%;padding:10px;display:flex;justify-content:center;align-items:center}
+    .item{flex:0 0 100%;padding:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px}
     .frame{width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;position:relative;background:#1a1a1a;box-shadow:0 12px 30px rgba(233,30,99,.18)}
     .frame::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(233,30,99,.12),transparent 55%),linear-gradient(315deg,rgba(240,98,146,.1),transparent 55%);mix-blend-mode:screen;opacity:.7}
     iframe{width:100%;height:100%;border:0;display:block}
+    .desc{width:100%;padding:0;margin:4px 0 0;font-size:18px;font-family:'Gowun Dodum',sans-serif;color:rgba(74,32,64,.88);line-height:1.2;text-align:center;font-weight:bold;}
     .nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:44px;height:44px;border-radius:999px;border:1px solid rgba(233,30,99,.2);background:rgba(255,255,255,.85);color:#E91E63;cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 25px rgba(233,30,99,.15);transition:transform .15s ease,background .15s ease;user-select:none}
     .nav:hover{background:rgba(255,255,255,.95);transform:translateY(-50%) scale(1.04)}
     .nav:active{transform:translateY(-50%) scale(.98)}
@@ -54,9 +57,7 @@
       <div class="title" style="margin: 0 auto; text-align: center; flex: 1;">
         <strong>LD 샘플</strong>
       </div>
-
-      <div class="controls">
-      </div>
+      <div class="controls"></div>
     </div>
 
     <div class="carousel" aria-label="YouTube carousel">
@@ -79,12 +80,20 @@
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // ✅ 여기만 수정하면 전부 자동 적용됩니다 (URL 또는 ID 가능)
+      // ✅ 영상 URL과 소개글을 함께 관리합니다
       const VIDEOS = [
         "https://www.youtube.com/watch?v=unRpvJET3I0",
         "https://www.youtube.com/watch?v=ZKl2kqy1938",
         "https://www.youtube.com/watch?v=I5IT5vOsoEs",
         "https://www.youtube.com/watch?v=e5i0cTVEHIs"
+      ];
+
+      //설명
+      const DESCRIPTIONS = [
+        "",
+        "",
+        "",
+        ""
       ];
 
       const app = document.getElementById("app");
@@ -94,10 +103,7 @@
       const nextBtn = app.querySelector(".next");
       const dotsWrap = app.querySelector(".dots");
       const thumbsWrap = app.querySelector(".thumbs");
-      const autoPlayEl = document.getElementById("autoPlay");
-      const intervalEl = document.getElementById("interval");
 
-      // 유튜브 ID 추출 (watch?v= / youtu.be / embed / raw id 지원)
       const toId = (v) => {
         if (!v) return "";
         const s = String(v).trim();
@@ -119,30 +125,30 @@
         return;
       }
 
-      // 슬라이드 DOM 자동 생성
+      // 슬라이드 DOM 자동 생성 — 영상 아래에 소개글 포함
       const makeSlide = (id, i) => {
         const item = document.createElement("div");
         item.className = "item";
+        const desc = DESCRIPTIONS[i] || "";
         item.innerHTML =
-          `<div class="frame"><iframe tabindex="-1" src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1" title="LD ${i+1}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`;
+          `<div class="frame"><iframe tabindex="-1" src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1" title="LD ${i+1}" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`
+          + (desc ? `<p class="desc">${desc}</p>` : "");
         return item;
       };
 
       track.innerHTML = "";
       ids.forEach((id, i) => track.appendChild(makeSlide(id, i)));
 
-      // 무한루프용 clone
       const originals = Array.from(track.children);
       const firstClone = originals[0].cloneNode(true);
       const lastClone  = originals[N - 1].cloneNode(true);
       track.insertBefore(lastClone, originals[0]);
       track.appendChild(firstClone);
 
-      const items = () => Array.from(track.children); // clone 포함
-      let index = 1;  // 첫 '진짜' 슬라이드
+      const items = () => Array.from(track.children);
+      let index = 1;
       let animating = false;
 
-      // dots + thumbs 생성
       const dots = [];
       const thumbs = [];
 
@@ -150,7 +156,6 @@
       thumbsWrap.innerHTML = "";
 
       for (let i = 0; i < N; i++) {
-        // dots
         const d = document.createElement("button");
         d.type = "button";
         d.className = "dot" + (i === 0 ? " active" : "");
@@ -159,7 +164,6 @@
         dotsWrap.appendChild(d);
         dots.push(d);
 
-        // thumbs
         const t = document.createElement("button");
         t.type = "button";
         t.className = "thumb" + (i === 0 ? " active" : "");
@@ -183,11 +187,6 @@
         const real = (index - 1 + N) % N;
         dots.forEach((d, i) => d.classList.toggle("active", i === real));
         thumbs.forEach((t, i) => t.classList.toggle("active", i === real));
-
-        const activeThumb = thumbs[real];
-        if (activeThumb) {
-          //activeThumb.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-        }
       };
 
       const goTo = (nextIndex) => {
@@ -198,50 +197,31 @@
         setActive();
       };
 
-      // 초기 위치
       setPos(false);
       setActive();
 
-      // 버튼
       prevBtn.addEventListener("click", () => goTo(index - 1));
       nextBtn.addEventListener("click", () => goTo(index + 1));
 
-      // transition 끝나면 clone 구간 순간이동
       track.addEventListener("transitionend", () => {
         const arr = items();
-        if (arr[index] === firstClone) {
-          index = 1; setPos(false);
-        } else if (arr[index] === lastClone) {
-          index = N; setPos(false);
-        }
+        if (arr[index] === firstClone) { index = 1; setPos(false); }
+        else if (arr[index] === lastClone) { index = N; setPos(false); }
         animating = false;
         setActive();
       });
 
-      // 리사이즈 대응
       window.addEventListener("resize", () => setPos(false));
 
-      // 키보드
       window.addEventListener("keydown", (e) => {
         if (e.key === "ArrowLeft") goTo(index - 1);
         if (e.key === "ArrowRight") goTo(index + 1);
       });
 
-      // 드래그/스와이프
       let startX = 0, dx = 0, dragging = false;
 
-      const down = (x) => {
-        if (animating) return;
-        dragging = true;
-        startX = x;
-        dx = 0;
-        track.style.transition = "none";
-      };
-      const move = (x) => {
-        if (!dragging) return;
-        dx = x - startX;
-        track.style.transform = `translateX(${-width() * index + dx}px)`;
-      };
+      const down = (x) => { if (animating) return; dragging = true; startX = x; dx = 0; track.style.transition = "none"; };
+      const move = (x) => { if (!dragging) return; dx = x - startX; track.style.transform = `translateX(${-width() * index + dx}px)`; };
       const up = () => {
         if (!dragging) return;
         dragging = false;
@@ -259,24 +239,6 @@
       viewport.addEventListener("touchstart", (e) => down(e.touches[0].clientX), { passive: true });
       viewport.addEventListener("touchmove", (e) => move(e.touches[0].clientX), { passive: true });
       viewport.addEventListener("touchend", up);
-
-      // 자동 재생
-      let timer = null;
-      const stopAuto = () => { if (timer) clearInterval(timer); timer = null; };
-      const startAuto = () => {
-        stopAuto();
-        const ms = parseInt(intervalEl.value, 10);
-        timer = setInterval(() => goTo(index + 1), ms);
-      };
-
-      autoPlayEl.addEventListener("change", () => {
-        if (autoPlayEl.checked) startAuto();
-        else stopAuto();
-      });
-
-      intervalEl.addEventListener("change", () => {
-        if (autoPlayEl.checked) startAuto();
-      });
     });
   </script>
 </body>
